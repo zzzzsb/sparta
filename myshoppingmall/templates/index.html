@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
+
+    <title>1주차 숙제</title>
+    <meta property="og:title" content="원페이지 쇼핑몰"/>
+    <meta property="og:description" content="수빈이 최애향수 트루동 아펠리 팔아요!!"/>
+    <meta property="og:image" content="{{ url_for('static', filename='ogimage.png') }}"/>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR&display=swap" rel="stylesheet">
+    <style>
+        * {
+            font-family: 'Noto Serif KR', serif;
+        }
+        .wrap{
+            width: 450px;
+            margin: auto;
+        }
+        .goods-image {
+            background-image: url("https://search.pstatic.net/common/?src=http%3A%2F%2Fshop1.phinf.naver.net%2F20220112_176%2F16419235445241Qdtt_JPEG%2F43059379352763902_7984024.jpg&type=sc960_832");
+            background-size: cover;
+            background-position: center;
+            width: 450px;
+            height: 400px;
+            margin: 10px auto 30px auto;
+        }
+        .goods-title {
+            font-weight: bold;
+        }
+        .price {
+            font-size: 14px;
+        }
+        .goods-description {
+            font-size: 13px;
+            text-align: left;
+            padding-bottom: 20px;
+        }
+        .order-btn{
+            display: block;
+            margin: 0px auto 30px auto;
+        }
+        .rate {
+            color: blue;
+        }
+    </style>
+    <script>
+        $(document).ready(function(){
+            get_rate();
+            listing();
+        })
+        // 목록 가져오기
+        function listing(){
+            $.ajax({
+                type: "GET",
+                url: "/order",
+                data: {},
+                success: function (response) {
+                    if(response["result"]==="success"){
+                        let orders = response['orders'];
+                        //console.log(orders);
+                        for(let i=0; i<orders.length; i++){
+                            let name = orders[i]['name'];
+                            let count = orders[i]['count'];
+                            let address = orders[i]['address'];
+                            let phone = orders[i]['phone'];
+
+                            let temp_html = `<tr>
+                                                <th scope="row">${name}</th>
+                                                <td>${count}</td>
+                                                <td>${address}</td>
+                                                <td>${phone}</td>
+                                             </tr>`
+                            $('#orders-box').append(temp_html);
+                        }
+                    }
+                }
+            })
+        }
+        // 현재 환율 가져오기
+        function get_rate(){
+            $.ajax({
+                type: "GET",
+                url: "http://spartacodingclub.shop/sparta_api/rate",
+                data: {},
+                success: function (response) {
+                    let now_rate = response['rate'];
+                    $('#now-rate').text(now_rate);
+                }
+            })
+        }
+        function order() {
+            let name = $('#order-name').val();
+            let count = $('#order-count').val();
+            let address = $('#order-address').val();
+            let phone = $('#order-phone').val();
+
+            $.ajax({
+                type: "POST",
+                url: "/order",
+                data: {name_give: name, count_give: count, address_give: address, phone_give: phone},
+                success: function (response) {
+                    if(response['result']==='success'){
+                        alert(response['msg']);
+                        window.location.reload();
+                    }
+                }
+            })
+        }
+    </script>
+</head>
+
+<body>
+<div class="wrap">
+    <div class="goods-image"></div>
+    <div class="goods-title">
+        <h4>[트루동] 아펠리 오 드 퍼퓸 100ml</h4>
+    </div>
+    <div class="price">
+        가격: 330,000원 / 개
+        <hr>
+    </div>
+    <div class="goods-description">
+        그린 아이비와 블랙커런트 새싹의 청량한 풀내음으로 시작되는 향은<br>
+        장미의 플로럴한 향과 만나 새벽 이슬을 머금은 장미 정원의 향을 선사합니다.<br>
+        <br>
+        HEAD | 로즈 에센스, 그린 아이비<br>
+        HEART | 블랙커런트 싹, 이끼<br>
+        BASE | 샌달우드, 통카빈<br>
+        <br>
+        <p class="rate">달러-원 환율: <span id="now-rate"></span></p>
+    </div>
+
+    <div class="order">
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text">주문자 이름</span>
+            </div>
+            <input id="order-name" type="text" class="form-control">
+        </div>
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <label class="input-group-text" for="order-num">수량</label>
+            </div>
+            <select id="order-count" class="custom-select">
+                <option selected>-- 수량을 선택하세요 --</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+            </select>
+        </div>
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+            <span class="input-group-text">주소</span>
+            </div>
+            <input id="order-address" type="text" class="form-control">
+        </div>
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text">전화번호</span>
+            </div>
+            <input id="order-phone" type="text" class="form-control">
+        </div>
+        <button type="button" onclick="order()" class="btn btn-primary order-btn">주문하기</button>
+    </div>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">이름</th>
+          <th scope="col">수량</th>
+          <th scope="col">주소</th>
+          <th scope="col">전화번호</th>
+        </tr>
+      </thead>
+      <tbody id="orders-box">
+      </tbody>
+    </table>
+</div>
+</body>
+
+</html>

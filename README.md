@@ -4,7 +4,7 @@
 
 ## Skills
 ### FE 
-- HTML/CSS/Javascript
+- html/css/javascript
 - BootStrap
 - jQuery 라이브러리를 이용한 Ajax 통신
 ### BE

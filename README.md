@@ -2,6 +2,14 @@
 - 스파르타 웹개발 종합반을 수강하며 작성한 코드입니다.
 - https://velog.io/@jisubin12/series/Sparta
 
+## Skills
+### FE 
+- HTML/CSS/Javascript
+- BootStrap
+- jQuery 라이브러리를 이용한 Ajax 통신
+### BE
+- Flask 프레임워크로 웹 서버 구축
+
 ## 주요 프로젝트
 ### 1. 모두의책리뷰
 <img width="500" alt="image" src="https://user-images.githubusercontent.com/56349582/156928833-eb4a1ff7-16bd-49ee-a8c0-4799ed66d420.png">

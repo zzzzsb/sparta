@@ -8,6 +8,7 @@
 - BootStrap
 - jQuery 라이브러리를 이용한 Ajax 통신
 ### BE
+- mongoDB
 - Flask 프레임워크로 웹 서버 구축
 
 ## 주요 프로젝트

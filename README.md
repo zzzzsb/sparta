@@ -1,6 +1,7 @@
 # sparta
-스파르타 웹개발 종합반을 수강하며 작성한 코드입니다.<br>
-https://velog.io/@jisubin12/series/Sparta
+스파르타 웹개발 종합반을 수강하며 작성한 코드입니다.
+<br>
+스터디 일지 | https://velog.io/@jisubin12/series/Sparta
 
 ## Skills
 ### FE 
